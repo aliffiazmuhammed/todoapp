@@ -1,21 +1,34 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const mongoose = require('mongoose');
+const getAmericanDate = require(__dirname+'/date.js')
 
 
+mongoose.connect('mongodb://localhost:27017/TODOLIST');
 
 const app = express()
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-const todo = []
-app.get('/',(req,res)=>{
-    res.render('index',{todo:todo});
+const taskschema = new mongoose.Schema({
+    task:String    
 })
 
-app.post('/',(req,res)=>{
-    todo.push(req.body.newItem)
+const Task = mongoose.model('task',taskschema)
+
+
+app.get('/',async(req,res)=>{
+    const todo = await Task.find()
+    var date2 = getAmericanDate()
+    console.log(date2)
+    res.render('index',{todo:todo,date:date2});
+})
+
+app.post('/',async(req,res)=>{
+    const task1 = new Task({task:req.body.newItem})
+    await task1.save();
     res.redirect('/')
 })
 

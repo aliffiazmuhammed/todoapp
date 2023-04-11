@@ -1,6 +1,6 @@
 <%- include('partials/header'); -%>
 <div class="box">
-    <h1 id="heading">date</h1>
+    <h1 id="heading"><%= date %></h1>
 </div>
 
 <div class="box">
@@ -8,7 +8,7 @@
       <% todo.forEach(function(item) { %>
         <div class="item">
             <input type="checkbox">
-        <p><%= item %></p>
+        <p><%= item.task %></p>
     </div>
       <% }); %>
     
