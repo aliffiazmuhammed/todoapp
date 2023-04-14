@@ -11,6 +11,7 @@
             <input type="checkbox" name="checkbox" value="<%= item._id%>" onChange="this.form.submit()">
         <p><%= item.task %></p>
     </div>
+    <input type="hidden" name="hidden" value="<%= date %>"></input>
         </form>
         
       <% }); %>
@@ -18,7 +19,7 @@
 
       <form class="item" action="/" method="post">
         <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-        <button type="submit" name="list">+</button>
+        <button type="submit" name="list" value ="<%= date %>" >+</button>
       </form>
 </div>
 
