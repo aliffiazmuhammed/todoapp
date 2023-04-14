@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
 const getAmericanDate = require(__dirname+'/date.js')
+const _ = require('lodash')
 
 
 mongoose.connect('mongodb://localhost:27017/TODOLIST');
@@ -78,7 +79,7 @@ app.post('/delete',async (req,res)=>{
 
 const defualitems=['welcome to todolist']
 app.get('/:pathid',async(req,res)=>{
-    const pathid = req.params.pathid
+    const pathid = _.capitalize(req.params.pathid)
     try{
         const hello=await Path.findOne({name:pathid})
         if(hello ===null){
