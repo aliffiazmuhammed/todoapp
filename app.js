@@ -13,7 +13,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 const taskschema = new mongoose.Schema({
-    task:String    
+    task:{
+        type: String,
+        required : true
+    }   
 })
 
 const Task = mongoose.model('task',taskschema)
@@ -28,9 +31,27 @@ app.get('/',async(req,res)=>{
 
 app.post('/',async(req,res)=>{
     const task1 = new Task({task:req.body.newItem})
-    await task1.save();
+    try{
+        await task1.save();
+        res.redirect('/')
+    }catch(err){
+        if(err){
+            res.redirect('/') 
+        }
+    }
+    
+    
+})
+app.post('/delete',async (req,res)=>{
+    const dltitem = req.body.checkbox;
+    await Task.findByIdAndRemove(dltitem)
     res.redirect('/')
 })
+
+// app.get('/:pathid',(req,res)=>{
+//     const pathid = req.params.pathid
+
+// })
 
 app.listen(3000,()=>{
     console.log('app running succesfully')
